@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <package name="customer" namespace="/" extends="struts-default">
+        <action name="customer_*" class="com.kaorou.action.CustomerAction" method="{1}">
+            <result name="saveUI">/jsp/customer/add.jsp</result>
+        </action>
+    </package>
+</struts>

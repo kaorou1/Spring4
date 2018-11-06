@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <!--使用注解方式，需要配置组件扫描-->
+    <context:component-scan base-package="com.kaorou.spring2" />
+
+    <bean id="customerDao" class="com.kaorou.spring.CustomerDaoImpl">
+        <property name="name" value="kaorou"></property>
+    </bean>
+
+    <!--<bean id="car" class="com.kaorou.spring.Car">
+        <property name="name" value="宝马"></property>
+        <property name="price" value="98888"></property>
+    </bean>
+
+    <bean id="employee" class="com.kaorou.spring.Employee">
+        <property name="ename" value="xinye"></property>
+        <property name="car" ref="car"></property>
+
+    </bean>-->
+
+    <!--p名称空间的依赖注入-->
+    <bean id="car" class="com.kaorou.spring.Car" p:name="奔驰" p:price="8888888"></bean>
+    <bean id="employee" class="com.kaorou.spring.Employee" p:ename="kaorou" p:car-ref="car"></bean>
+
+    <!--SpEL的依赖注入-->
+    <!--<bean id="carInfo" class="com.kaorou.spring.CarInfo"></bean>
+
+    <bean id="car" class="com.kaorou.spring.Car">
+        <property name="name" value="#{carInfo.getName() }"></property>
+        <property name="price" value="#{carInfo.randomPrice() }"></property>
+    </bean>
+
+    <bean id="employee" class="com.kaorou.spring.Employee">
+        <property name="ename" value="#{'wanbo' }"></property>
+        <property name="car" value="#{car }"></property>
+    </bean>-->
+</beans>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <context:component-scan base-package="com.kaorou"/>
+
+    <!--单独使用属性注入的注解需要的配置-->
+    <!--<context:annotation-config></context:annotation-config>-->
+
+    <bean id="userDao" class="com.kaorou.aop.UserDaoImpl" />
+    <bean id="MyAspect" class="com.kaorou.aop.MyAspectXML" />
+
+    <aop:config>
+        <!--切入点的配置，就是配置想要增强的那些方法-->
+        <aop:pointcut id="find" expression="execution(* com.kaorou.aop.UserDaoImpl.find(..))" />
+        <aop:pointcut id="save" expression="execution(void com.kaorou.aop.UserDaoImpl.save())" />
+        <aop:pointcut id="delete" expression="execution(void com.kaorou.aop.UserDaoImpl.delete())" />
+
+        <!--切面的配置，就是用哪个类中的方法来增强切入点的方法-->
+        <aop:aspect ref="MyAspect">
+
+            <!--哪个方法用哪种方式增强-->
+            <aop:before method="checkPri" pointcut-ref="find" />
+            <aop:after-returning method="writeLog" pointcut-ref="save" />
+            <aop:around method="timeCheck" pointcut-ref="delete" />
+        </aop:aspect>
+
+    </aop:config>
+
+
+    <!--给所有的方法都配置时间记录-->
+    <!--<aop:config>
+        <aop:pointcut id="allmethod" expression="execution(* com.kaorou.aop..*.*(..))" />
+
+        <aop:aspect ref="MyAspect">
+            <aop:around method="timeCheck" pointcut-ref="allmethod"></aop:around>
+        </aop:aspect>
+    </aop:config>-->
+
+</beans>
